@@ -1,17 +1,33 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+<<<<<<< HEAD
 *.py[codz]
+=======
+*.py[cod]
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
 *$py.class
 
 # C extensions
 *.so
 
+<<<<<<< HEAD
+=======
+# Virtual environments
+autovenv/
+venv/
+.env
+
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
 # Distribution / packaging
 .Python
 build/
 develop-eggs/
 dist/
+<<<<<<< HEAD
 downloads/
+=======
+download/
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
 eggs/
 .eggs/
 lib/
@@ -19,6 +35,7 @@ lib64/
 parts/
 sdist/
 var/
+<<<<<<< HEAD
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -31,6 +48,11 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+=======
+*.egg-info/
+.installed.cfg
+*.egg
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
 
 # Installer logs
 pip-log.txt
@@ -46,6 +68,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+<<<<<<< HEAD
 *.py.cover
 .hypothesis/
 .pytest_cache/
@@ -74,10 +97,14 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
+=======
+*.py,cover
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
+<<<<<<< HEAD
 # IPython
 profile_default/
 ipython_config.py
@@ -205,3 +232,33 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+=======
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# data and outputs
+data/output/
+
+# screenshots
+screenshots/
+
+# local settings
+settings_local.py
+
+# Project specific
+*.xlsx
+sample_pdfs/*.pdf
+output/
+
+# Keep directory structure
+!screenshots/.gitkeep
+!output/.gitkeep
+!sample_pdfs/.gitkeep
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)

@@ -213,32 +213,61 @@ class PDFConverter:
             print(f"Error saving Excel file: {e}")
             return False
 
-def main():
-    """Main execution function"""
+def main(selected_pdf_path=None):
+    """Main execution function
+
+    If selected_pdf_path is provided, process that file directly (used when called
+    programmatically). Otherwise, run in interactive mode.
+    """
     print("PDF-to-Spreadsheet Converter")
-    
+
     converter = PDFConverter()
-    
-    pdf_dir = "data/input"
-    output_dir = "data/output"
-    
-    if not os.path.exists(pdf_dir):
+
+    project_root = Path(__file__).resolve().parent.parent
+    pdf_dir = project_root / "data" / "input"
+    output_dir = project_root / "data" / "output"
+
+    if not pdf_dir.exists():
         print(f"Directory '{pdf_dir}' not found!")
         print("Please create the directory and add PDF files.")
         return
-    
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    
-    pdf_files = [f for f in os.listdir(pdf_dir) if f.lower().endswith('.pdf')]
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # If a specific file path was provided, process it directly
+    if selected_pdf_path:
+        pdf_path = Path(selected_pdf_path)
+        if not pdf_path.is_absolute():
+            pdf_path = project_root / selected_pdf_path
+        if not pdf_path.exists():
+            print(f"File '{pdf_path}' not found")
+            return
+
+        print(f"Processing: {pdf_path.name}")
+        data = converter.process_single_pdf(str(pdf_path))
+        if not data:
+            print("Failed to extract data from PDF")
+            return
+        output_file = output_dir / f"{pdf_path.stem}_extracted.xlsx"
+        success = converter.save_to_excel([data], str(output_file))
+        if success:
+            print(f"\nConversion completed successfully!")
+            print(f"Output file: {output_file}")
+            print(f"Source PDF: {pdf_path}")
+        else:
+            print("Failed to save Excel file")
+        return
+
+    # Interactive mode
+    pdf_files = [f for f in sorted(os.listdir(pdf_dir)) if f.lower().endswith('.pdf')]
     if not pdf_files:
         print(f"No PDF files found in '{pdf_dir}'")
         return
-    
+
     print("\nAvailable PDF files:")
     for idx, fname in enumerate(pdf_files, 1):
         print(f"  {idx}. {fname}")
-    
+
     try:
         choice = int(input(f"\nSelect a PDF to convert (1-{len(pdf_files)}): "))
         if choice < 1 or choice > len(pdf_files):
@@ -247,20 +276,20 @@ def main():
     except ValueError:
         print("Please enter a valid number.")
         return
-    
+
     selected_pdf = pdf_files[choice - 1]
-    pdf_path = os.path.join(pdf_dir, selected_pdf)
-    
+    pdf_path = pdf_dir / selected_pdf
+
     print(f"Processing: {selected_pdf}")
-    
-    data = converter.process_single_pdf(pdf_path)
+
+    data = converter.process_single_pdf(str(pdf_path))
     if not data:
         print("Failed to extract data from PDF")
         return
-    
-    output_file = os.path.join(output_dir, f"{os.path.splitext(selected_pdf)[0]}_extracted.xlsx")
-    
-    success = converter.save_to_excel([data], output_file)
+
+    output_file = output_dir / f"{pdf_path.stem}_extracted.xlsx"
+
+    success = converter.save_to_excel([data], str(output_file))
     if success:
         print(f"\nConversion completed successfully!")
         print(f"Output file: {output_file}")
@@ -268,5 +297,10 @@ def main():
     else:
         print("Failed to save Excel file")
 
+# Replace the script entry point to accept an optional CLI argument
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1:
+        main(sys.argv[1])
+    else:
+        main()

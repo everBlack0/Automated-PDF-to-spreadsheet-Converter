@@ -17,10 +17,10 @@ autovenv/
 venv/
 .env
 
->>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet Converter)
+>>>>>>> d50fa58 (Initial commit: PDF-to-Spreadsheet C\onverter)
 # Distribution / packaging
 .Python
-build/
+
 develop-eggs/
 dist/
 <<<<<<< HEAD
